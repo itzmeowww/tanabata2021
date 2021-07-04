@@ -52,15 +52,29 @@ export default function Index() {
     const ctx = canvas.getContext("2d");
   };
   const [clickPos, setClickPos] = useState({});
-
+  const [cardWish, setCardWish] = useState({});
   const handleCanvasClick = (event) => {
+    const posX = event.pageX + scrollLeft - canvasLeft;
+    const posY = event.pageY - canvasTop;
     if (readyToAdd) {
       const pos = {
-        x: event.pageX + scrollLeft - canvasLeft,
-        y: event.pageY - canvasTop,
+        x: posX,
+        y: posY,
       };
       addWish(pos);
       setReadyToAdd(false);
+    } else {
+      wishList.forEach((doc) => {
+        if (
+          doc.data().pos.x - 9 <= posX &&
+          posX <= doc.data().pos.x + 9 &&
+          doc.data().pos.y - 15 <= posY &&
+          posY <= doc.data().pos.y + 15
+        ) {
+          setCardWish(doc.data());
+          setOpenWishCard(true);
+        }
+      });
     }
   };
   const Canvas = (props) => {
@@ -69,6 +83,20 @@ export default function Index() {
     const draw = (ctx, x, y) => {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
+          ctx.beginPath();
+          ctx.moveTo(doc.data().pos.x, 0);
+          ctx.lineTo(doc.data().pos.x, doc.data().pos.y - 15);
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(
+            doc.data().pos.x - 9 - 1,
+            doc.data().pos.y - 15 - 1,
+            18 + 2,
+            30 + 2
+          );
           ctx.fillStyle = cardColors[doc.data().card];
           ctx.fillRect(doc.data().pos.x - 9, doc.data().pos.y - 15, 18, 30);
           ctx.fill();
@@ -196,6 +224,11 @@ export default function Index() {
   };
   const handleInfoClickClose = () => {
     setOpenInfo(false);
+  };
+
+  const [openWishCard, setOpenWishCard] = useState(false);
+  const handleWishCardClose = () => {
+    setOpenWishCard(false);
   };
 
   const FormControlStyle = {
@@ -388,6 +421,52 @@ export default function Index() {
           style={{ backgroundColor: "#EEEEEE", borderRadius: "5px" }}
         />
       </Box>
+      <Dialog
+        open={openWishCard}
+        onClose={handleWishCardClose}
+        maxWidth="lg"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Box
+          sx={{
+            paddingX: 2,
+            backgroundColor: cardColors[cardWish.card],
+            width: "250px",
+            minHeight: "400px",
+          }}
+        >
+          <DialogContent>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              sx={{ height: "300px" }}
+            >
+              <Typography align="center" variant="body1">
+                {cardWish.wish}
+              </Typography>
+            </Box>
+            <Box
+              display={cardWish.name == "" ? "none" : "flex"}
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              sx={{ height: "80px" }}
+            >
+              <Typography align="center" variant="overline">
+                {cardWish.name}
+              </Typography>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleWishCardClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Box>
+      </Dialog>
     </Box>
   );
 }
