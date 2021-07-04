@@ -28,6 +28,8 @@ import Select from "@material-ui/core/Select";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/core/Alert";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import firebase from "../src/firebase/initFirebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 
@@ -51,7 +53,7 @@ export default function Index() {
   const handleCanvas = (canvas) => {
     const ctx = canvas.getContext("2d");
   };
-  const [clickPos, setClickPos] = useState({});
+
   const [cardWish, setCardWish] = useState({});
   const handleCanvasClick = (event) => {
     const posX = event.pageX + scrollLeft - canvasLeft;
@@ -61,8 +63,27 @@ export default function Index() {
         x: posX,
         y: posY,
       };
-      addWish(pos);
-      setReadyToAdd(false);
+      let overlap = false;
+      wishList.forEach((doc) => {
+        if (
+          doc.data().pos.x - 9 <= posX &&
+          posX <= doc.data().pos.x + 9 &&
+          doc.data().pos.y - 15 <= posY &&
+          posY <= doc.data().pos.y + 15
+        ) {
+          overlap = true;
+        }
+      });
+      if (overlap) {
+        setSnackbarVal({
+          severity: "warning",
+          text: "Card overlap!",
+        });
+        setOpenSnackbar(true);
+      } else {
+        addWish(pos);
+        setReadyToAdd(false);
+      }
     } else {
       wishList.forEach((doc) => {
         if (
@@ -80,7 +101,7 @@ export default function Index() {
   const Canvas = (props) => {
     const canvasRef = useRef(null);
 
-    const draw = (ctx, x, y) => {
+    const draw = (ctx) => {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
           ctx.beginPath();
@@ -110,7 +131,7 @@ export default function Index() {
       if (canvasLeft == 0) setCanvasLeft(canvas.offsetLeft + canvas.clientLeft);
       if (canvasTop == 0) setCanvasTop(canvas.offsetTop + canvas.clientTop);
 
-      draw(context, clickPos.x, clickPos.y);
+      draw(context);
     }, [wishList, loadingWishList]);
 
     return <canvas ref={canvasRef} {...props} />;
@@ -131,6 +152,7 @@ export default function Index() {
   const [wishCount, setWishCount] = React.useState(0);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarVal, setSnackbarVal] = React.useState({});
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -212,6 +234,10 @@ export default function Index() {
     if (!validateWish()) {
       handleWishFormClickClose();
       setReadyToAdd(true);
+      setSnackbarVal({
+        severity: "info",
+        text: "Click the area to place you card",
+      });
       setOpenSnackbar(true);
     }
     // setSubmitting(true);
@@ -399,10 +425,10 @@ export default function Index() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="info"
+          severity={snackbarVal.severity}
           sx={{ width: "100%" }}
         >
-          Please click in the canvas below
+          {snackbarVal.text}
         </Alert>
       </Snackbar>
       <Box
@@ -410,16 +436,23 @@ export default function Index() {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        sx={{
+          width: "100vw",
+          overflow: "auto",
+        }}
         pt="20px"
-        overflow="auto"
         onClick={handleCanvasClick}
       >
-        <Canvas
-          ref={handleCanvas}
-          width="600px"
-          height="300px"
-          style={{ backgroundColor: "#EEEEEE", borderRadius: "5px" }}
-        />
+        {loadingWishList ? (
+          <CircularProgress />
+        ) : (
+          <Canvas
+            ref={handleCanvas}
+            width="600px"
+            height="300px"
+            style={{ backgroundColor: "#EEEEEE", borderRadius: "5px" }}
+          />
+        )}
       </Box>
       <Dialog
         open={openWishCard}
