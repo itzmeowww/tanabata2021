@@ -31,8 +31,41 @@ import MuiAlert from "@material-ui/core/Alert";
 import firebase from "../src/firebase/initFirebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
 export default function Index() {
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+  const handleOnScroll = (e) => {
+    setScrollLeft(e.target.scrollLeft);
+  };
+  const handleCanvas = (canvas) => {
+    const ctx = canvas.getContext("2d");
+  };
+  const [clickPos, setClickPos] = useState({});
+  const handleCanvasClick = (event) => {
+    setClickPos({ x: event.pageX + scrollLeft, y: event.pageY });
+  };
+  const Canvas = (props) => {
+    const canvasRef = useRef(null);
+
+    const draw = (ctx, x, y) => {
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(x - 9, y - 15, 18, 30);
+      ctx.fill();
+    };
+
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+      const canvasLeft = canvas.offsetLeft + canvas.clientLeft;
+      const canvasTop = canvas.offsetTop + canvas.clientTop;
+
+      draw(context, clickPos.x - canvasLeft, clickPos.y - canvasTop);
+    }, [draw, clickPos]);
+
+    return <canvas ref={canvasRef} {...props} />;
+  };
+
   const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
   const [openWishForm, setOpenWishForm] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -320,6 +353,22 @@ export default function Index() {
           Please click in the canvas below
         </Alert>
       </Snackbar>
+      <Box
+        onScroll={handleOnScroll}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        pt="20px"
+        overflow="auto"
+        onClick={handleCanvasClick}
+      >
+        <Canvas
+          ref={handleCanvas}
+          width="600px"
+          height="300px"
+          style={{ backgroundColor: "#EEEEEE", borderRadius: "5px" }}
+        />
+      </Box>
     </Box>
   );
 }
