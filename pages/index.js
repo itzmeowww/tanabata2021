@@ -30,6 +30,8 @@ import MuiAlert from "@material-ui/core/Alert";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import NextLink from "next/link";
+
 import firebase from "../src/firebase/initFirebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 
@@ -280,7 +282,8 @@ export default function Index() {
           {wishCount} wishes!
         </Typography>
       </Box>
-      <Box display="flex" alignItems="center" justifyContent="center" pt="5vh">
+
+      <Box display="flex" alignItems="center" justifyContent="center" pt="2vh">
         <Button
           variant="outlined"
           color="primary"
@@ -444,7 +447,15 @@ export default function Index() {
         onClick={handleCanvasClick}
       >
         {loadingWishList ? (
-          <CircularProgress />
+          <Box
+            width="100%"
+            height="300px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <CircularProgress />
+          </Box>
         ) : (
           <Canvas
             ref={handleCanvas}
@@ -504,6 +515,19 @@ export default function Index() {
           </DialogActions>
         </Box>
       </Dialog>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        pt="5vh"
+        pb="5vh"
+      >
+        <NextLink href="https://itzmeowww.github.io/tanabata2020/">
+          <Button variant="outlined" color="primary">
+            Visit Last Year
+          </Button>
+        </NextLink>
+      </Box>
     </Box>
   );
 }
