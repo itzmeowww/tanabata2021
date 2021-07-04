@@ -437,10 +437,10 @@ export default function Index() {
         justifyContent="center"
         alignItems="center"
         sx={{
-          width: "100vw",
+          maxWidth: "100vw",
           overflow: "auto",
+          p: "20px",
         }}
-        pt="20px"
         onClick={handleCanvasClick}
       >
         {loadingWishList ? (
@@ -450,7 +450,11 @@ export default function Index() {
             ref={handleCanvas}
             width="600px"
             height="300px"
-            style={{ backgroundColor: "#EEEEEE", borderRadius: "5px" }}
+            style={{
+              backgroundColor: "#EEEEEE",
+              borderRadius: "5px",
+              left: "10px",
+            }}
           />
         )}
       </Box>
@@ -483,7 +487,7 @@ export default function Index() {
             </Box>
             <Box
               display={cardWish.name == "" ? "none" : "flex"}
-              justifyContent="center"
+              justifyContent="flex-end"
               alignItems="center"
               flexDirection="column"
               sx={{ height: "80px" }}
