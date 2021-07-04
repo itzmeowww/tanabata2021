@@ -238,7 +238,7 @@ export default function Index() {
       setReadyToAdd(true);
       setSnackbarVal({
         severity: "info",
-        text: "Click the area to place you card",
+        text: "Click the area to place your card",
       });
       setOpenSnackbar(true);
     }
