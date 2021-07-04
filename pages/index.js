@@ -35,6 +35,12 @@ export default function Index() {
   const [card, setCard] = React.useState();
   const [wish, setWish] = React.useState("");
   const [name, setName] = React.useState("");
+  const [yourWish, setYourWish] = React.useState("");
+
+  const handleYourWishChange = (event) => {
+    setWish("free");
+    setYourWish(event.target.value);
+  };
 
   const handleWishChange = (event) => {
     setWish(event.target.value);
@@ -96,7 +102,7 @@ export default function Index() {
               <Box
                 display="flex"
                 justifyContent="center"
-                alignItems="center"
+                alignItems="flex-start"
                 flexDirection="column"
               >
                 <FormControl sx={FormControlStyle} variant="standard">
@@ -112,20 +118,45 @@ export default function Index() {
                     <MenuItem value={3}>Coconut</MenuItem>
                   </Select>
                 </FormControl>
-
-                <FormControl sx={FormControlStyle} variant="standard">
-                  <InputLabel id="wish">Wish</InputLabel>
-                  <Select
-                    labelId="wish"
-                    id="select-wish"
+                <FormControl sx={FormControlStyle} component="fieldset">
+                  <FormLabel component="legend">Wish</FormLabel>
+                  <RadioGroup
+                    aria-label="wish"
+                    name="radio-buttons-group"
                     value={wish}
                     onChange={handleWishChange}
                   >
-                    <MenuItem value={1}>Meow!</MenuItem>
-                    <MenuItem value={2}>Grrhh!</MenuItem>
-                    <MenuItem value={3}>Woof!</MenuItem>
-                  </Select>
+                    <FormControlLabel
+                      value="wish A"
+                      control={<Radio size="small" />}
+                      label="Wish A"
+                    />
+                    <FormControlLabel
+                      value="wish b"
+                      control={<Radio size="small" />}
+                      label="Wish B"
+                    />
+                    <FormControlLabel
+                      value="wish c"
+                      control={<Radio size="small" />}
+                      label="Wish C"
+                    />
+                    <FormControlLabel
+                      value="free"
+                      control={<Radio size="small" />}
+                      label={
+                        <TextField
+                          value={yourWish}
+                          onChange={handleYourWishChange}
+                          size="small"
+                          variant="standard"
+                          placeholder="type anything!"
+                        />
+                      }
+                    />
+                  </RadioGroup>
                 </FormControl>
+
                 <FormControl sx={FormControlStyle} variant="standard">
                   <TextField
                     size="small"
