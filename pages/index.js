@@ -29,29 +29,41 @@ import Select from "@material-ui/core/Select";
 import { useState } from "react";
 export default function Index() {
   const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
-  const [open, setOpen] = useState(false);
+  const [openWishForm, setOpenWishForm] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
 
-  const [value, setValue] = React.useState();
+  const [card, setCard] = React.useState();
   const [wish, setWish] = React.useState("");
+  const [name, setName] = React.useState("");
 
   const handleWishChange = (event) => {
     setWish(event.target.value);
   };
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleNameChange = (event) => {
+    setName(event.target.value);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleCardChange = (event) => {
+    setCard(event.target.value);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleWishFormClickOpen = () => {
+    setOpenWishForm(true);
+  };
+  const handleWishFormClickClose = () => {
+    setOpenWishForm(false);
+  };
+
+  const handleInfoClickOpen = () => {
+    setOpenInfo(true);
+  };
+  const handleInfoClickClose = () => {
+    setOpenInfo(false);
   };
 
   const FormControlStyle = {
-    minWidth: 180,
+    minWidth: 200,
     marginY: 1,
   };
   return (
@@ -62,18 +74,23 @@ export default function Index() {
       <Typography variant="h6" align="center">
         @KVIS — 7/7/2021
       </Typography>
+
       <Box display="flex" alignItems="center" justifyContent="center" pt="10vh">
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Make a wish
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleWishFormClickOpen}
+        >
+          Make a Wish
         </Button>
         <Dialog
-          open={open}
-          onClose={handleClose}
+          open={openWishForm}
+          onClose={handleWishFormClickClose}
           maxWidth="lg"
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <Box sx={{ backgroundColor: cardColors[value] }}>
+          <Box sx={{ paddingX: 2, backgroundColor: cardColors[card] }}>
             <DialogTitle id="alert-dialog-title">Make a wish</DialogTitle>
             <DialogContent>
               <Box
@@ -87,22 +104,15 @@ export default function Index() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={value}
-                    onChange={handleChange}
+                    value={card}
+                    onChange={handleCardChange}
                   >
                     <MenuItem value={1}>Strawberry</MenuItem>
                     <MenuItem value={2}>Avocado</MenuItem>
                     <MenuItem value={3}>Coconut</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl sx={FormControlStyle} variant="standard">
-                  <TextField
-                    size="small"
-                    id="name"
-                    label="Name"
-                    variant="standard"
-                  />
-                </FormControl>
+
                 <FormControl sx={FormControlStyle} variant="standard">
                   <InputLabel id="wish">Wish</InputLabel>
                   <Select
@@ -116,19 +126,59 @@ export default function Index() {
                     <MenuItem value={3}>Woof!</MenuItem>
                   </Select>
                 </FormControl>
+                <FormControl sx={FormControlStyle} variant="standard">
+                  <TextField
+                    size="small"
+                    id="name"
+                    label="Name"
+                    variant="standard"
+                    value={name}
+                    onChange={handleNameChange}
+                  />
+                </FormControl>
               </Box>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button onClick={handleWishFormClickClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handleClose} color="primary" autoFocus>
-                Make a wish
+              <Button onClick={handleWishFormClickClose} color="primary">
+                Make a Wish
               </Button>
             </DialogActions>
           </Box>
         </Dialog>
       </Box>
+      <Box display="flex" alignItems="center" justifyContent="center" pt="10px">
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={handleInfoClickOpen}
+        >
+          What is Tanabata?
+        </Button>
+        <Dialog
+          open={openInfo}
+          onClose={handleInfoClickClose}
+          maxWidth="lg"
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle>What is Tanabata?</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              PLEASE ADD SOMETHING HERE PLEASE ADD SOMETHING HERE PLEASE ADD
+              SOMETHING HERE PLEASE ADD SOMETHING HERE
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleInfoClickClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+      <Box></Box>
     </Box>
   );
 }
