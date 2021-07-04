@@ -1,10 +1,7 @@
 import * as React from "react";
-import Container from "@material-ui/core/Container";
+
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import ProTip from "../src/ProTip";
-import Link from "../src/Link";
-import Copyright from "../src/Copyright";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,6 +9,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+
+import LoadingButton from "@material-ui/lab/LoadingButton";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -26,25 +25,91 @@ import FormLabel from "@material-ui/core/FormLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import { useState } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/core/Alert";
+
+import firebase from "../src/firebase/initFirebase";
+import { useCollection } from "react-firebase-hooks/firestore";
+
+import { useState, useEffect } from "react";
 export default function Index() {
   const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
   const [openWishForm, setOpenWishForm] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
 
-  const [card, setCard] = React.useState();
+  const [card, setCard] = React.useState("");
+  const [cardError, setCardError] = React.useState(false);
+
   const [wish, setWish] = React.useState("");
+  const [wishError, setWishError] = React.useState(false);
+
   const [name, setName] = React.useState("");
   const [yourWish, setYourWish] = React.useState("");
-
+  const [submitting, setSubmitting] = React.useState(false);
   const [wishCount, setWishCount] = React.useState(0);
 
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const [wishList, loadingWishList, wishListError] = useCollection(
+    firebase.firestore().collection("wishes2021")
+  );
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  useEffect(() => {
+    if (!loadingWishList) {
+      setWishCount(wishList.size);
+    }
+  }, [wishList, loadingWishList]);
+
+  const validateWish = () => {
+    let error = false;
+    if (card == "") {
+      error = true;
+      setCardError(true);
+    }
+    if (wish == "" || (wish == "free" && yourWish == "")) {
+      error = true;
+      setWishError(true);
+    }
+    return error;
+  };
+  const addWish = async () => {
+    if (validateWish()) {
+      return false;
+    } else {
+      const currentWish = wish == "free" ? yourWish : wish;
+
+      const wishData = {
+        wish: currentWish,
+        card: card,
+        name: name,
+      };
+
+      await firebase.firestore().collection("wishes2021").add(wishData);
+      setWish("");
+      setCard("");
+      setYourWish("");
+      return true;
+    }
+  };
   const handleYourWishChange = (event) => {
+    setWishError(false);
     setWish("free");
     setYourWish(event.target.value);
   };
 
   const handleWishChange = (event) => {
+    setWishError(false);
     setWish(event.target.value);
   };
 
@@ -53,6 +118,7 @@ export default function Index() {
   };
 
   const handleCardChange = (event) => {
+    if (cardError) setCardError(false);
     setCard(event.target.value);
   };
 
@@ -61,6 +127,16 @@ export default function Index() {
   };
   const handleWishFormClickClose = () => {
     setOpenWishForm(false);
+  };
+
+  const handleWishFormSubmit = async () => {
+    if (!validateWish()) {
+      handleWishFormClickClose();
+      setOpenSnackbar(true);
+    }
+    // setSubmitting(true);
+    // const complete = await addWish();
+    // setSubmitting(false);
   };
 
   const handleInfoClickOpen = () => {
@@ -117,7 +193,11 @@ export default function Index() {
                 alignItems="flex-start"
                 flexDirection="column"
               >
-                <FormControl sx={FormControlStyle} variant="standard">
+                <FormControl
+                  sx={FormControlStyle}
+                  variant="standard"
+                  error={cardError}
+                >
                   <InputLabel id="demo-simple-select-label">Card</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -129,27 +209,27 @@ export default function Index() {
                     <MenuItem value={2}>Avocado</MenuItem>
                     <MenuItem value={3}>Coconut</MenuItem>
                   </Select>
+                  <FormHelperText>Please select your card</FormHelperText>
                 </FormControl>
-                <FormControl sx={FormControlStyle} component="fieldset">
+                <FormControl
+                  sx={FormControlStyle}
+                  component="fieldset"
+                  error={wishError}
+                >
                   <FormLabel component="legend">Wish</FormLabel>
-                  <RadioGroup
-                    aria-label="wish"
-                    name="radio-buttons-group"
-                    value={wish}
-                    onChange={handleWishChange}
-                  >
+                  <RadioGroup value={wish} onChange={handleWishChange}>
                     <FormControlLabel
                       value="wish A"
                       control={<Radio size="small" />}
                       label="Wish A"
                     />
                     <FormControlLabel
-                      value="wish b"
+                      value="wish B"
                       control={<Radio size="small" />}
                       label="Wish B"
                     />
                     <FormControlLabel
-                      value="wish c"
+                      value="wish C"
                       control={<Radio size="small" />}
                       label="Wish C"
                     />
@@ -167,6 +247,7 @@ export default function Index() {
                       }
                     />
                   </RadioGroup>
+                  <FormHelperText>Please select your wish</FormHelperText>
                 </FormControl>
 
                 <FormControl sx={FormControlStyle} variant="standard">
@@ -176,6 +257,7 @@ export default function Index() {
                     label="Name"
                     variant="standard"
                     value={name}
+                    placeholder="name#batch"
                     onChange={handleNameChange}
                   />
                 </FormControl>
@@ -185,9 +267,13 @@ export default function Index() {
               <Button onClick={handleWishFormClickClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handleWishFormClickClose} color="primary">
+              <LoadingButton
+                onClick={handleWishFormSubmit}
+                color="primary"
+                loading={submitting}
+              >
                 Make a Wish
-              </Button>
+              </LoadingButton>
             </DialogActions>
           </Box>
         </Dialog>
@@ -203,7 +289,7 @@ export default function Index() {
         <Dialog
           open={openInfo}
           onClose={handleInfoClickClose}
-          maxWidth="lg"
+          maxWidth="sm"
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -221,7 +307,19 @@ export default function Index() {
           </DialogActions>
         </Dialog>
       </Box>
-      <Box></Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          Please click in the canvas below
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

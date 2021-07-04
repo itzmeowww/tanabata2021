@@ -9,11 +9,14 @@
     "@emotion/styled": "latest",
     "@material-ui/core": "next",
     "@material-ui/icons": "next",
+    "@material-ui/lab": "^5.0.0-alpha.39",
     "clsx": "latest",
+    "firebase": "^8.7.0",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-firebase-hooks": "^3.0.4"
   },
   "scripts": {
     "dev": "next",
