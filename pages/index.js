@@ -34,7 +34,17 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
+  const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
+
+  const [wishList, loadingWishList, wishListError] = useCollection(
+    firebase.firestore().collection("wishes2021")
+  );
+
+  const [readyToAdd, setReadyToAdd] = React.useState(false);
   const [scrollLeft, setScrollLeft] = React.useState(0);
+  const [canvasLeft, setCanvasLeft] = React.useState(0);
+  const [canvasTop, setCanvasTop] = React.useState(0);
+
   const handleOnScroll = (e) => {
     setScrollLeft(e.target.scrollLeft);
   };
@@ -42,31 +52,42 @@ export default function Index() {
     const ctx = canvas.getContext("2d");
   };
   const [clickPos, setClickPos] = useState({});
+
   const handleCanvasClick = (event) => {
-    setClickPos({ x: event.pageX + scrollLeft, y: event.pageY });
+    if (readyToAdd) {
+      const pos = {
+        x: event.pageX + scrollLeft - canvasLeft,
+        y: event.pageY - canvasTop,
+      };
+      addWish(pos);
+      setReadyToAdd(false);
+    }
   };
   const Canvas = (props) => {
     const canvasRef = useRef(null);
 
     const draw = (ctx, x, y) => {
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(x - 9, y - 15, 18, 30);
-      ctx.fill();
+      if (!loadingWishList) {
+        wishList.forEach((doc) => {
+          ctx.fillStyle = cardColors[doc.data().card];
+          ctx.fillRect(doc.data().pos.x - 9, doc.data().pos.y - 15, 18, 30);
+          ctx.fill();
+        });
+      }
     };
 
     useEffect(() => {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
-      const canvasLeft = canvas.offsetLeft + canvas.clientLeft;
-      const canvasTop = canvas.offsetTop + canvas.clientTop;
+      if (canvasLeft == 0) setCanvasLeft(canvas.offsetLeft + canvas.clientLeft);
+      if (canvasTop == 0) setCanvasTop(canvas.offsetTop + canvas.clientTop);
 
-      draw(context, clickPos.x - canvasLeft, clickPos.y - canvasTop);
-    }, [draw, clickPos]);
+      draw(context, clickPos.x, clickPos.y);
+    }, [wishList, loadingWishList]);
 
     return <canvas ref={canvasRef} {...props} />;
   };
 
-  const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
   const [openWishForm, setOpenWishForm] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
 
@@ -82,10 +103,6 @@ export default function Index() {
   const [wishCount, setWishCount] = React.useState(0);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
-
-  const [wishList, loadingWishList, wishListError] = useCollection(
-    firebase.firestore().collection("wishes2021")
-  );
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -116,7 +133,7 @@ export default function Index() {
     }
     return error;
   };
-  const addWish = async () => {
+  const addWish = async (pos) => {
     if (validateWish()) {
       return false;
     } else {
@@ -126,6 +143,7 @@ export default function Index() {
         wish: currentWish,
         card: card,
         name: name,
+        pos: pos,
       };
 
       await firebase.firestore().collection("wishes2021").add(wishData);
@@ -165,6 +183,7 @@ export default function Index() {
   const handleWishFormSubmit = async () => {
     if (!validateWish()) {
       handleWishFormClickClose();
+      setReadyToAdd(true);
       setOpenSnackbar(true);
     }
     // setSubmitting(true);
