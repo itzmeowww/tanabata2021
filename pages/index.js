@@ -32,6 +32,11 @@ export default function Index() {
   const [open, setOpen] = useState(false);
 
   const [value, setValue] = React.useState();
+  const [wish, setWish] = React.useState("");
+
+  const handleWishChange = (event) => {
+    setWish(event.target.value);
+  };
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -45,6 +50,10 @@ export default function Index() {
     setOpen(false);
   };
 
+  const FormControlStyle = {
+    minWidth: 180,
+    marginY: 1,
+  };
   return (
     <Box width="100vw" height="100vh" maxWidth="100%">
       <Typography variant="h3" align="center" mt="10vh">
@@ -67,26 +76,47 @@ export default function Index() {
           <Box sx={{ backgroundColor: cardColors[value] }}>
             <DialogTitle id="alert-dialog-title">Make a wish</DialogTitle>
             <DialogContent>
-              <FormControl sx={{ minWidth: 120 }} variant="standard">
-                <InputLabel id="demo-simple-select-label">Card</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={value}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={1}>Strawberry</MenuItem>
-                  <MenuItem value={2}>Avocado</MenuItem>
-                  <MenuItem value={3}>Coconut</MenuItem>
-                </Select>
-                <Box width="100%" height="10px"></Box>
-                <TextField
-                  size="small"
-                  id="name"
-                  label="Name"
-                  variant="standard"
-                />
-              </FormControl>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <FormControl sx={FormControlStyle} variant="standard">
+                  <InputLabel id="demo-simple-select-label">Card</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={value}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={1}>Strawberry</MenuItem>
+                    <MenuItem value={2}>Avocado</MenuItem>
+                    <MenuItem value={3}>Coconut</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl sx={FormControlStyle} variant="standard">
+                  <TextField
+                    size="small"
+                    id="name"
+                    label="Name"
+                    variant="standard"
+                  />
+                </FormControl>
+                <FormControl sx={FormControlStyle} variant="standard">
+                  <InputLabel id="wish">Wish</InputLabel>
+                  <Select
+                    labelId="wish"
+                    id="select-wish"
+                    value={wish}
+                    onChange={handleWishChange}
+                  >
+                    <MenuItem value={1}>Meow!</MenuItem>
+                    <MenuItem value={2}>Grrhh!</MenuItem>
+                    <MenuItem value={3}>Woof!</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary">
