@@ -37,6 +37,8 @@ export default function Index() {
   const [name, setName] = React.useState("");
   const [yourWish, setYourWish] = React.useState("");
 
+  const [wishCount, setWishCount] = React.useState(0);
+
   const handleYourWishChange = (event) => {
     setWish("free");
     setYourWish(event.target.value);
@@ -74,14 +76,24 @@ export default function Index() {
   };
   return (
     <Box width="100vw" height="100vh" maxWidth="100%">
-      <Typography variant="h3" align="center" mt="10vh">
-        七夕—Tanabata
-      </Typography>
-      <Typography variant="h6" align="center">
-        @KVIS — 7/7/2021
-      </Typography>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="flex-start"
+        flexDirection="column"
+      >
+        <Typography variant="h4" align="center" mt="10vh">
+          七夕—Tanabata
+        </Typography>
+        <Typography variant="subtitle1" align="center">
+          @KVIS — 7/7/2021
+        </Typography>
 
-      <Box display="flex" alignItems="center" justifyContent="center" pt="10vh">
+        <Typography align="center" variant="button">
+          {wishCount} wishes!
+        </Typography>
+      </Box>
+      <Box display="flex" alignItems="center" justifyContent="center" pt="5vh">
         <Button
           variant="outlined"
           color="primary"
