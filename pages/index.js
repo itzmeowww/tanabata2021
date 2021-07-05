@@ -153,7 +153,7 @@ export default function Index() {
   const [snackbarVal, setSnackbarVal] = React.useState({});
 
   const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert elevation={7} ref={ref} variant="filled" {...props} />;
   });
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -193,8 +193,14 @@ export default function Index() {
         name: name,
         pos: pos,
       };
-
+      setOpenSnackbar(false);
       await firebase.firestore().collection("wishes2021").add(wishData);
+
+      setSnackbarVal({
+        severity: "success",
+        text: "Complete!",
+      });
+      setOpenSnackbar(true);
       setWish("");
       setCard("");
       setYourWish("");
@@ -419,7 +425,7 @@ export default function Index() {
       </Box>
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleCloseSnackbar}
       >
         <Alert
