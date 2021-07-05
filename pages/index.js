@@ -514,7 +514,7 @@ export default function Index() {
               height="350px"
               style={{
                 // backgroundColor: "#EEEEEE",
-                backgroundImage: "url(background4.png)",
+                backgroundImage: "url(background5.png)",
                 borderRadius: "5px",
                 left: "10px",
                 cursor: "pointer",
