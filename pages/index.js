@@ -107,7 +107,7 @@ export default function Index() {
     const draw = (ctx) => {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
-          ctx.fillStyle = "#000000";
+          ctx.fillStyle = "#FEFEFE";
           ctx.fillRect(doc.data().pos.x - 1, 0, 1, doc.data().pos.y - 15);
 
           ctx.fillStyle = "#000000";
@@ -514,7 +514,7 @@ export default function Index() {
               height="350px"
               style={{
                 // backgroundColor: "#EEEEEE",
-                backgroundImage: "url(background.jpg)",
+                backgroundImage: "url(background4.png)",
                 borderRadius: "5px",
                 left: "10px",
                 cursor: "pointer",
@@ -601,8 +601,8 @@ export default function Index() {
         </Typography>
         <Typography variant="caption">
           Designed by{" "}
-          <NextLink href="https://instagram.com/crackerloveyou">
-            @crackerloveyou
+          <NextLink href="https://instagram.com/prim_patcha">
+            @prim_patcha
           </NextLink>
         </Typography>
       </Box>
