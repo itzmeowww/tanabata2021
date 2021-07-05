@@ -440,12 +440,6 @@ export default function Index() {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        sx={{
-          maxWidth: "100vw",
-          overflow: "auto",
-          p: "20px",
-        }}
-        onClick={handleCanvasClick}
       >
         {loadingWishList ? (
           <Box
@@ -458,16 +452,25 @@ export default function Index() {
             <CircularProgress />
           </Box>
         ) : (
-          <Canvas
-            ref={handleCanvas}
-            width="600px"
-            height="300px"
-            style={{
-              backgroundColor: "#EEEEEE",
-              borderRadius: "5px",
-              left: "10px",
+          <Box
+            sx={{
+              maxWidth: "80vw",
+              overflow: "auto",
+              mt: "20px",
             }}
-          />
+            onClick={handleCanvasClick}
+          >
+            <Canvas
+              ref={handleCanvas}
+              width="600px"
+              height="300px"
+              style={{
+                backgroundColor: "#EEEEEE",
+                borderRadius: "5px",
+                left: "10px",
+              }}
+            />
+          </Box>
         )}
       </Box>
       <Dialog
