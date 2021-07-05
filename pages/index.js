@@ -325,7 +325,11 @@ export default function Index() {
                     <MenuItem value={2}>Avocado</MenuItem>
                     <MenuItem value={3}>Coconut</MenuItem>
                   </Select>
-                  <FormHelperText>Please select your card</FormHelperText>
+                  <FormHelperText
+                    sx={{ display: cardError ? "block" : "none" }}
+                  >
+                    Please select your card
+                  </FormHelperText>
                 </FormControl>
                 <FormControl
                   sx={FormControlStyle}
@@ -363,7 +367,11 @@ export default function Index() {
                       }
                     />
                   </RadioGroup>
-                  <FormHelperText>Please select your wish</FormHelperText>
+                  <FormHelperText
+                    sx={{ display: wishError ? "block" : "none" }}
+                  >
+                    Please select your wish
+                  </FormHelperText>
                 </FormControl>
 
                 <FormControl sx={FormControlStyle} variant="standard">
