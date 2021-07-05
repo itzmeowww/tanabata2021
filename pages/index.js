@@ -28,6 +28,7 @@ import Select from "@material-ui/core/Select";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/core/Alert";
 
+import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import NextLink from "next/link";
@@ -512,7 +513,8 @@ export default function Index() {
               width="1500px"
               height="350px"
               style={{
-                backgroundColor: "#EEEEEE",
+                // backgroundColor: "#EEEEEE",
+                backgroundImage: "url(background.jpg)",
                 borderRadius: "5px",
                 left: "10px",
                 cursor: "pointer",
@@ -531,7 +533,6 @@ export default function Index() {
       >
         <Box
           sx={{
-            paddingX: 2,
             backgroundColor: cardColors[cardWish.card],
             width: "250px",
             minHeight: "400px",
@@ -543,18 +544,18 @@ export default function Index() {
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              sx={{ height: "300px" }}
+              sx={{ height: "340px", pb: "40px" }}
             >
               <Typography align="center" variant="body1">
                 {cardWish.wish}
               </Typography>
             </Box>
             <Box
-              display={cardWish.name == "" ? "none" : "flex"}
+              display="flex"
               justifyContent="flex-end"
               alignItems="center"
               flexDirection="column"
-              sx={{ height: "80px" }}
+              sx={{ height: "10px" }}
             >
               <Typography align="center" variant="overline">
                 {cardWish.name}
@@ -562,7 +563,11 @@ export default function Index() {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleWishCardClose} color="primary">
+            <Button
+              onClick={handleWishCardClose}
+              color="secondary"
+              variant="contained"
+            >
               Close
             </Button>
           </DialogActions>
