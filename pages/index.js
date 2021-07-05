@@ -39,7 +39,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
-  const cardColors = ["#FEFEFE", "#DF5E5E", "#77ACF1", "#E5D549", "#C490E4"];
+  const cardColors = ["#FEFEFE", "#da7f8f", "#cdf0ea", "#ffe194", "#c6b4ce"];
   const cardColorsName = ["Cloud", "Rose", "Sky", "Banana", "Grape"];
 
   const scrollBar = useRef();
