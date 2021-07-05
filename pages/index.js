@@ -39,6 +39,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
   const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
+  const textColors = ["#FF8474", "#FF8474", "#FF8474", "#FF8474"];
 
   const [wishList, loadingWishList, wishListError] = useCollection(
     firebase.firestore().collection("wishes2021")
@@ -109,8 +110,8 @@ export default function Index() {
           ctx.beginPath();
           ctx.moveTo(doc.data().pos.x, 0);
           ctx.lineTo(doc.data().pos.x, doc.data().pos.y - 15);
-          ctx.strokeStyle = "#000000";
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = 0;
           ctx.stroke();
 
           ctx.fillStyle = "#000000";
@@ -523,10 +524,28 @@ export default function Index() {
         pb="5vh"
       >
         <NextLink href="https://itzmeowww.github.io/tanabata2020/">
-          <Button variant="outlined" color="primary">
-            Visit Last Year
+          <Button size="small" variant="outlined" color="primary">
+            Visit Last Year's Website
           </Button>
         </NextLink>
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+        sx={{ pt: "5vh", pb: "5vh" }}
+      >
+        <Typography variant="caption">
+          Code with 💖 by{" "}
+          <NextLink href="https://instagram.com/thnsn_kmd">@thnsn_kmd</NextLink>{" "}
+        </Typography>
+        <Typography variant="caption">
+          and will be designed soon by{" "}
+          <NextLink href="https://instagram.com/crackerloveyou">
+            @crackerloveyou
+          </NextLink>
+        </Typography>
       </Box>
     </Box>
   );
