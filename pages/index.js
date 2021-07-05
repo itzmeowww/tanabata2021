@@ -265,18 +265,35 @@ export default function Index() {
     minWidth: 200,
     marginY: 1,
   };
+
   return (
-    <Box width="100vw" height="100vh" maxWidth="100%">
+    <Box
+      width="100vw"
+      minHeight="100vh"
+      maxWidth="100%"
+      sx={{
+        // background: "rgb(122,127,155)",
+        background:
+          "linear-gradient(0deg, rgba(122,127,155,1) 0%, rgba(112,107,139,1) 100%)",
+        m: "0",
+        p: "0",
+      }}
+    >
       <Box
         display="flex"
         alignItems="center"
         justifyContent="flex-start"
         flexDirection="column"
+        sx={{ color: "white" }}
       >
         <Typography variant="h4" align="center" mt="10vh">
-          七夕—Tanabata
+          七夕—TANABATA
         </Typography>
-        <Typography variant="subtitle1" align="center">
+        <Typography
+          variant="subtitle1"
+          align="center"
+          sx={{ color: "#ecd8b0" }}
+        >
           @KVIS — 7/7/2021
         </Typography>
 
@@ -287,7 +304,7 @@ export default function Index() {
 
       <Box display="flex" alignItems="center" justifyContent="center" pt="2vh">
         <Button
-          variant="outlined"
+          variant="contained"
           color="primary"
           onClick={handleWishFormClickOpen}
         >
@@ -300,19 +317,23 @@ export default function Index() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <Box sx={{ paddingX: 2, backgroundColor: cardColors[card] }}>
-            <DialogTitle id="alert-dialog-title">Make a wish</DialogTitle>
+          <Box sx={{ backgroundColor: cardColors[card] }}>
+            <DialogTitle id="alert-dialog-title" align="center">
+              Make a Wish ✨
+            </DialogTitle>
             <DialogContent>
               <Box
                 display="flex"
                 justifyContent="center"
                 alignItems="flex-start"
                 flexDirection="column"
+                color="secondary"
               >
                 <FormControl
                   sx={FormControlStyle}
                   variant="standard"
                   error={cardError}
+                  color="secondary"
                 >
                   <InputLabel id="demo-simple-select-label">Card</InputLabel>
                   <Select
@@ -331,37 +352,44 @@ export default function Index() {
                     Please select your card
                   </FormHelperText>
                 </FormControl>
+
                 <FormControl
                   sx={FormControlStyle}
                   component="fieldset"
                   error={wishError}
+                  color="secondary"
                 >
                   <FormLabel component="legend">Wish</FormLabel>
-                  <RadioGroup value={wish} onChange={handleWishChange}>
+                  <RadioGroup
+                    value={wish}
+                    onChange={handleWishChange}
+                    color="secondary"
+                  >
                     <FormControlLabel
                       value="wish A"
-                      control={<Radio size="small" />}
+                      control={<Radio color="secondary" size="small" />}
                       label="Wish A"
                     />
                     <FormControlLabel
                       value="wish B"
-                      control={<Radio size="small" />}
+                      control={<Radio color="secondary" size="small" />}
                       label="Wish B"
                     />
                     <FormControlLabel
                       value="wish C"
-                      control={<Radio size="small" />}
+                      control={<Radio color="secondary" size="small" />}
                       label="Wish C"
                     />
                     <FormControlLabel
                       value="free"
-                      control={<Radio size="small" />}
+                      control={<Radio color="secondary" size="small" />}
                       label={
                         <TextField
                           value={yourWish}
                           onChange={handleYourWishChange}
                           size="small"
                           variant="standard"
+                          color="secondary"
                           placeholder="type anything!"
                         />
                       }
@@ -383,28 +411,35 @@ export default function Index() {
                     value={name}
                     placeholder="name#batch"
                     onChange={handleNameChange}
+                    color="secondary"
                   />
                 </FormControl>
               </Box>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleWishFormClickClose} color="primary">
+              <Button
+                onClick={handleWishFormClickClose}
+                color="secondary"
+                variant="contained"
+              >
                 Cancel
               </Button>
               <LoadingButton
                 onClick={handleWishFormSubmit}
-                color="primary"
+                color="secondary"
                 loading={submitting}
+                variant="contained"
               >
-                Make a Wish
+                Wish
               </LoadingButton>
             </DialogActions>
           </Box>
         </Dialog>
       </Box>
+
       <Box display="flex" alignItems="center" justifyContent="center" pt="10px">
         <Button
-          variant="outlined"
+          variant="contained"
           color="primary"
           onClick={handleInfoClickOpen}
         >
@@ -425,12 +460,18 @@ export default function Index() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleInfoClickClose} color="primary">
+            <Button
+              onClick={handleInfoClickClose}
+              color="primary"
+              variant="contained"
+              color="secondary"
+            >
               Close
             </Button>
           </DialogActions>
         </Dialog>
       </Box>
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={5000}
@@ -444,6 +485,7 @@ export default function Index() {
           {snackbarVal.text}
         </Alert>
       </Snackbar>
+
       <Box display="flex" justifyContent="center" alignItems="center">
         {loadingWishList ? (
           <Box
@@ -479,6 +521,7 @@ export default function Index() {
           </Box>
         )}
       </Box>
+
       <Dialog
         open={openWishCard}
         onClose={handleWishCardClose}
@@ -525,6 +568,7 @@ export default function Index() {
           </DialogActions>
         </Box>
       </Dialog>
+
       <Box
         display="flex"
         alignItems="center"
@@ -533,24 +577,25 @@ export default function Index() {
         pb="5vh"
       >
         <NextLink href="https://itzmeowww.github.io/tanabata2020/">
-          <Button size="small" variant="outlined" color="primary">
+          <Button size="small" variant="contained" color="primary">
             Visit Last Year's Website
           </Button>
         </NextLink>
       </Box>
+      {/* Credit */}
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
-        sx={{ pt: "5vh", pb: "5vh" }}
+        sx={{ pt: "5vh", pb: "5vh", color: "white" }}
       >
         <Typography variant="caption">
           Code with 💖 by{" "}
           <NextLink href="https://instagram.com/thnsn_kmd">@thnsn_kmd</NextLink>{" "}
         </Typography>
         <Typography variant="caption">
-          and will be designed soon by{" "}
+          Designed by{" "}
           <NextLink href="https://instagram.com/crackerloveyou">
             @crackerloveyou
           </NextLink>
