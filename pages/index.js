@@ -106,22 +106,18 @@ export default function Index() {
     const draw = (ctx) => {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
-          ctx.beginPath();
-          ctx.moveTo(doc.data().pos.x, 0);
-          ctx.lineTo(doc.data().pos.x, doc.data().pos.y - 15);
-          ctx.strokeStyle = "black";
-          ctx.lineWidth = 0;
-          ctx.stroke();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(doc.data().pos.x - 1, 0, 1, doc.data().pos.y - 15);
 
           ctx.fillStyle = "#000000";
           ctx.fillRect(
-            doc.data().pos.x - 9 - 1,
+            doc.data().pos.x - 9 - 2,
             doc.data().pos.y - 15 - 1,
-            18 + 2,
+            19 + 2,
             30 + 2
           );
           ctx.fillStyle = cardColors[doc.data().card];
-          ctx.fillRect(doc.data().pos.x - 9, doc.data().pos.y - 15, 18, 30);
+          ctx.fillRect(doc.data().pos.x - 10, doc.data().pos.y - 15, 19, 30);
           ctx.fill();
         });
       }
