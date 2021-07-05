@@ -39,8 +39,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
-  const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
-  const textColors = ["#FF8474", "#FF8474", "#FF8474", "#FF8474"];
+  const cardColors = ["#FEFEFE", "#DF5E5E", "#77ACF1", "#E5D549", "#C490E4"];
+  const cardColorsName = ["Cloud", "Rose", "Sky", "Banana", "Grape"];
 
   const scrollBar = useRef();
 
@@ -69,10 +69,10 @@ export default function Index() {
       let overlap = false;
       wishList.forEach((doc) => {
         if (
-          doc.data().pos.x - 9 <= posX &&
-          posX <= doc.data().pos.x + 9 &&
-          doc.data().pos.y - 15 <= posY &&
-          posY <= doc.data().pos.y + 15
+          doc.data().pos.x - 10 <= posX &&
+          posX <= doc.data().pos.x + 10 &&
+          doc.data().pos.y - 16 <= posY &&
+          posY <= doc.data().pos.y + 16
         ) {
           overlap = true;
         }
@@ -80,7 +80,7 @@ export default function Index() {
       if (overlap) {
         setSnackbarVal({
           severity: "warning",
-          text: "Card overlap!",
+          text: "Cannot place a card on another card",
         });
         setOpenSnackbar(true);
       } else {
@@ -90,10 +90,10 @@ export default function Index() {
     } else {
       wishList.forEach((doc) => {
         if (
-          doc.data().pos.x - 9 <= posX &&
-          posX <= doc.data().pos.x + 9 &&
-          doc.data().pos.y - 15 <= posY &&
-          posY <= doc.data().pos.y + 15
+          doc.data().pos.x - 10 <= posX &&
+          posX <= doc.data().pos.x + 10 &&
+          doc.data().pos.y - 16 <= posY &&
+          posY <= doc.data().pos.y + 16
         ) {
           setCardWish(doc.data());
           setOpenWishCard(true);
@@ -115,10 +115,10 @@ export default function Index() {
             doc.data().pos.x - 9 - 2,
             doc.data().pos.y - 15 - 1,
             19 + 2,
-            30 + 2
+            32 + 2
           );
           ctx.fillStyle = cardColors[doc.data().card];
-          ctx.fillRect(doc.data().pos.x - 10, doc.data().pos.y - 15, 19, 30);
+          ctx.fillRect(doc.data().pos.x - 10, doc.data().pos.y - 15, 19, 32);
           ctx.fill();
         });
       }
@@ -336,21 +336,23 @@ export default function Index() {
                   error={cardError}
                   color="secondary"
                 >
-                  <InputLabel id="demo-simple-select-label">Card</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    Select your theme
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={card}
                     onChange={handleCardChange}
                   >
-                    <MenuItem value={1}>Strawberry</MenuItem>
-                    <MenuItem value={2}>Avocado</MenuItem>
-                    <MenuItem value={3}>Coconut</MenuItem>
+                    {cardColorsName.map((x, idx) => {
+                      return <MenuItem value={idx}>{x}</MenuItem>;
+                    })}
                   </Select>
                   <FormHelperText
                     sx={{ display: cardError ? "block" : "none" }}
                   >
-                    Please select your card
+                    Please select your theme!
                   </FormHelperText>
                 </FormControl>
 
@@ -367,19 +369,31 @@ export default function Index() {
                     color="secondary"
                   >
                     <FormControlLabel
-                      value="wish A"
+                      value="幸せになりますように"
                       control={<Radio color="secondary" size="small" />}
-                      label="Wish A"
+                      label={
+                        wish == "幸せになりますように"
+                          ? "ขอให้มีความสุข"
+                          : "幸せになりますように "
+                      }
                     />
                     <FormControlLabel
-                      value="wish B"
+                      value="健康でありますように"
                       control={<Radio color="secondary" size="small" />}
-                      label="Wish B"
+                      label={
+                        wish == "健康でありますように"
+                          ? "ขอให้สุขภาพแข็งแรง"
+                          : "健康でありますように"
+                      }
                     />
                     <FormControlLabel
-                      value="wish C"
+                      value="金持ちになりますように"
                       control={<Radio color="secondary" size="small" />}
-                      label="Wish C"
+                      label={
+                        wish == "金持ちになりますように"
+                          ? "ขอให้ร่ำรวย"
+                          : "金持ちになりますように"
+                      }
                     />
                     <FormControlLabel
                       value="free"

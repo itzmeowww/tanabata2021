@@ -15,7 +15,7 @@ export default function MyApp(props) {
   return (
     <CacheProvider value={cache}>
       <Head>
-        <title>七夕 — Make a wish on Tanabata Day</title>
+        <title>七夕 — Make a Wish on Tanabata Day</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="./moon.png"></link>
         <meta property="og:image" content="./background5.png" />
