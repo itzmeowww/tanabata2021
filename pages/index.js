@@ -459,12 +459,13 @@ export default function Index() {
           >
             <Canvas
               ref={handleCanvas}
-              width="600px"
-              height="300px"
+              width="1500px"
+              height="350px"
               style={{
                 backgroundColor: "#EEEEEE",
                 borderRadius: "5px",
                 left: "10px",
+                cursor: "pointer",
               }}
             />
           </Box>
