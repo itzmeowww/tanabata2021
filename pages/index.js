@@ -41,6 +41,8 @@ export default function Index() {
   const cardColors = ["#FEFEFE", "#FAEBE0", "#B5CDA3", "#C1AC95"];
   const textColors = ["#FF8474", "#FF8474", "#FF8474", "#FF8474"];
 
+  const scrollBar = useRef();
+
   const [wishList, loadingWishList, wishListError] = useCollection(
     firebase.firestore().collection("wishes2021")
   );
@@ -50,16 +52,13 @@ export default function Index() {
   const [canvasLeft, setCanvasLeft] = React.useState(0);
   const [canvasTop, setCanvasTop] = React.useState(0);
 
-  const handleOnScroll = (e) => {
-    setScrollLeft(e.target.scrollLeft);
-  };
   const handleCanvas = (canvas) => {
     const ctx = canvas.getContext("2d");
   };
 
   const [cardWish, setCardWish] = useState({});
   const handleCanvasClick = (event) => {
-    const posX = event.pageX + scrollLeft - canvasLeft;
+    const posX = event.pageX + scrollBar.current.scrollLeft - canvasLeft;
     const posY = event.pageY - canvasTop;
     if (readyToAdd) {
       const pos = {
@@ -435,12 +434,7 @@ export default function Index() {
           {snackbarVal.text}
         </Alert>
       </Snackbar>
-      <Box
-        onScroll={handleOnScroll}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Box display="flex" justifyContent="center" alignItems="center">
         {loadingWishList ? (
           <Box
             width="100%"
@@ -459,6 +453,7 @@ export default function Index() {
               mt: "20px",
             }}
             onClick={handleCanvasClick}
+            ref={scrollBar}
           >
             <Canvas
               ref={handleCanvas}
