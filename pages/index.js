@@ -41,7 +41,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
   const cardColors = ["#FEFEFE", "#da7f8f", "#cdf0ea", "#ffe194", "#c6b4ce"];
-  const cardColorsName = ["Cloud", "Rose", "Sea", "Star", "Grape"];
+  const cardColorsName = ["Cotton", "Ruby", "Ocean", "Daffodil", "Amethyst"];
 
   const scrollBar = useRef();
 
