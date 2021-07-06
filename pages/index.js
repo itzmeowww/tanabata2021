@@ -32,6 +32,7 @@ import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import NextLink from "next/link";
+import Link from "@material-ui/core/Link";
 
 import firebase from "../src/firebase/initFirebase";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -470,8 +471,34 @@ export default function Index() {
           <DialogTitle>What is Tanabata?</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              PLEASE ADD SOMETHING HERE PLEASE ADD SOMETHING HERE PLEASE ADD
-              SOMETHING HERE PLEASE ADD SOMETHING HERE
+              <Typography variant="body1" align="justify">
+                Tanabata (たなばた, 七夕), meaning the “Evening of the seventh,”
+                also known as the Star Festival, is a Japanese festival 🎉. It
+                celebrates the meeting of the deities Orihime and Hikoboshi,
+                which is represented by the stars{" "}
+                <Link
+                  href="https://en.wikipedia.org/wiki/Vega"
+                  color="secondary"
+                >
+                  Vega
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="https://en.wikipedia.org/wiki/Altair"
+                  color="secondary"
+                >
+                  Altair
+                </Link>
+                , respectively. From the legend, the Milky Way 🌌 separates
+                these lovers, and they are allowed to meet only once a year on{" "}
+                <b>Tanabata day</b>.
+              </Typography>
+              <Divider>o</Divider>
+              <Typography variant="body1" align="justify">
+                On this day, people around the world will write their wish on
+                the paper called Tanzaku and put it on a bamboo tree 🎋 to wish
+                upon the stars ⭐.
+              </Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
