@@ -288,7 +288,7 @@ export default function Index() {
         flexDirection="column"
         sx={{ color: "white" }}
       >
-        <Typography variant="h4" align="center" mt="10vh">
+        <Typography variant="h4" align="center" mt="8vh">
           七夕—TANABATA
         </Typography>
         <Typography
