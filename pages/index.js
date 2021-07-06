@@ -638,13 +638,11 @@ export default function Index() {
       >
         <Typography variant="caption">
           Code with 💖 by{" "}
-          <NextLink href="https://instagram.com/thnsn_kmd">@thnsn_kmd</NextLink>{" "}
+          <Link href="https://instagram.com/thnsn_kmd">@thnsn_kmd</Link>{" "}
         </Typography>
         <Typography variant="caption">
           Designed by{" "}
-          <NextLink href="https://instagram.com/prim_patcha">
-            @prim_patcha
-          </NextLink>
+          <Link href="https://instagram.com/prim_patcha">@prim_patcha</Link>
         </Typography>
       </Box>
     </Box>
