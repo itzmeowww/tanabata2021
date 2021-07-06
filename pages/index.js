@@ -642,7 +642,7 @@ export default function Index() {
         </Typography>
         <Typography variant="caption">
           Designed by{" "}
-          <Link href="https://instagram.com/prim_patcha">@prim_patcha</Link>
+          <Link href="https://instagram.com/crackerloveyou">@crackerloveyou</Link>
         </Typography>
       </Box>
     </Box>
