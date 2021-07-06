@@ -40,7 +40,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Index() {
   const cardColors = ["#FEFEFE", "#da7f8f", "#cdf0ea", "#ffe194", "#c6b4ce"];
-  const cardColorsName = ["Cloud", "Rose", "Sky", "Banana", "Grape"];
+  const cardColorsName = ["Cloud", "Rose", "Sea", "Star", "Grape"];
 
   const scrollBar = useRef();
 
@@ -49,7 +49,7 @@ export default function Index() {
   );
 
   const [readyToAdd, setReadyToAdd] = React.useState(false);
-  const [scrollLeft, setScrollLeft] = React.useState(0);
+
   const [canvasLeft, setCanvasLeft] = React.useState(0);
   const [canvasTop, setCanvasTop] = React.useState(0);
 
@@ -108,7 +108,7 @@ export default function Index() {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
           ctx.fillStyle = "#FEFEFE";
-          ctx.fillRect(doc.data().pos.x - 1, 0, 1, doc.data().pos.y - 15);
+          ctx.fillRect(doc.data().pos.x - 1, 0, 1, doc.data().pos.y - 16);
 
           ctx.fillStyle = "#000000";
           ctx.fillRect(
@@ -373,7 +373,7 @@ export default function Index() {
                       control={<Radio color="secondary" size="small" />}
                       label={
                         wish == "幸せになりますように"
-                          ? "ขอให้มีความสุข"
+                          ? "I wish you happiness"
                           : "幸せになりますように "
                       }
                     />
@@ -382,7 +382,7 @@ export default function Index() {
                       control={<Radio color="secondary" size="small" />}
                       label={
                         wish == "健康でありますように"
-                          ? "ขอให้สุขภาพแข็งแรง"
+                          ? "I wish you good health"
                           : "健康でありますように"
                       }
                     />
@@ -391,7 +391,7 @@ export default function Index() {
                       control={<Radio color="secondary" size="small" />}
                       label={
                         wish == "金持ちになりますように"
-                          ? "ขอให้ร่ำรวย"
+                          ? "I wish you wealthiness"
                           : "金持ちになりますように"
                       }
                     />
