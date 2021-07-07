@@ -94,7 +94,7 @@ export default function Index() {
       ) {
         setSnackbarVal({
           severity: "warning",
-          text: "Cannot cover the moon",
+          text: "Cannot cover the moon🌝",
         });
         setOpenSnackbar(true);
       } else {
@@ -183,7 +183,7 @@ export default function Index() {
 
   const validateWish = () => {
     let error = false;
-    if (card == "") {
+    if (card == -1) {
       error = true;
       setCardError(true);
     }
