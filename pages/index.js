@@ -31,7 +31,9 @@ import MuiAlert from "@material-ui/core/Alert";
 import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Chip from "@material-ui/core/Chip";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
 
 import NextLink from "next/link";
 import Link from "@material-ui/core/Link";
@@ -310,14 +312,14 @@ export default function Index() {
         >
           @KVIS — 7/7/2021
         </Typography>
-
         <Typography align="center" variant="button">
           {wishCount} wishes!
+          <Divider variant="middle" />
         </Typography>
-        <Chip
-          label="Tanabata is over for this year, may all your wishes come true ✨"
-          color="secondary"
-        />
+
+        <Typography align="center" variant="button">
+          Tanabata is over for this year, may all your wishes come true ✨
+        </Typography>
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="center" pt="2vh">
