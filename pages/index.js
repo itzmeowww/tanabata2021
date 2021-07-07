@@ -31,6 +31,8 @@ import MuiAlert from "@material-ui/core/Alert";
 import Divider from "@material-ui/core/Divider";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import Chip from "@material-ui/core/Chip";
+
 import NextLink from "next/link";
 import Link from "@material-ui/core/Link";
 
@@ -312,17 +314,16 @@ export default function Index() {
         <Typography align="center" variant="button">
           {wishCount} wishes!
         </Typography>
+        <Chip
+          label="Tanabata is over for this year, may all your wishes come true ✨"
+          color="secondary"
+        />
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="center" pt="2vh">
-        <LoadingButton
-          variant="contained"
-          color="primary"
-          onClick={handleWishFormClickOpen}
-          loading={loadingWishList}
-        >
+        <Button variant="contained" color="primary" disabled>
           Make a Wish
-        </LoadingButton>
+        </Button>
         <Dialog
           open={openWishForm}
           onClose={handleWishFormClickClose}
