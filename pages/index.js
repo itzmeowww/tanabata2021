@@ -94,7 +94,7 @@ export default function Index() {
       ) {
         setSnackbarVal({
           severity: "warning",
-          text: "Cannot cover the moon🌝",
+          text: "Cannot cover the moon 🌝",
         });
         setOpenSnackbar(true);
       } else {
