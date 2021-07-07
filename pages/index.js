@@ -314,10 +314,10 @@ export default function Index() {
         </Typography>
         <Typography align="center" variant="button">
           {wishCount} wishes!
-          <Divider variant="middle" />
         </Typography>
 
-        <Typography align="center" variant="button">
+        <Typography align="center" variant="button" sx={{ maxWidth: "80vw" }}>
+          <Divider variant="middle" />
           Tanabata is over for this year, may all your wishes come true ✨
         </Typography>
       </Box>
