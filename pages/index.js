@@ -315,13 +315,14 @@ export default function Index() {
       </Box>
 
       <Box display="flex" alignItems="center" justifyContent="center" pt="2vh">
-        <Button
+        <LoadingButton
           variant="contained"
           color="primary"
           onClick={handleWishFormClickOpen}
+          loading={loadingWishList}
         >
           Make a Wish
-        </Button>
+        </LoadingButton>
         <Dialog
           open={openWishForm}
           onClose={handleWishFormClickClose}
@@ -530,8 +531,9 @@ export default function Index() {
 
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={5000}
+        autoHideDuration={6000}
         onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert
           onClose={handleCloseSnackbar}
