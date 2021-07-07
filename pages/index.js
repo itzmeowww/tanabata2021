@@ -79,16 +79,22 @@ export default function Index() {
           overlap = true;
         }
       });
+
       if (overlap) {
         setSnackbarVal({
           severity: "warning",
           text: "Cannot place a card on another card",
         });
         setOpenSnackbar(true);
-      } else if (posX >= 1300 && posX <= 1390 && posY >= 25 && posY <= 100) {
+      } else if (
+        parseInt(posX) >= 1380 &&
+        parseInt(posX) <= 1470 &&
+        parseInt(posY) >= 25 &&
+        parseInt(posY) <= 110
+      ) {
         setSnackbarVal({
           severity: "warning",
-          text: "Cannot place a card on the moon",
+          text: "Cannot cover the moon",
         });
         setOpenSnackbar(true);
       } else {
@@ -115,18 +121,15 @@ export default function Index() {
     const draw = (ctx) => {
       if (!loadingWishList) {
         wishList.forEach((doc) => {
+          const cX = Math.round(doc.data().pos.x);
+          const cY = Math.round(doc.data().pos.y);
           ctx.fillStyle = "#FEFEFE";
-          ctx.fillRect(doc.data().pos.x - 1, 0, 1, doc.data().pos.y - 16);
+          ctx.fillRect(cX - 1, 0, 1, cY - 16);
 
           ctx.fillStyle = "#000000";
-          ctx.fillRect(
-            doc.data().pos.x - 9 - 2,
-            doc.data().pos.y - 15 - 1,
-            19 + 2,
-            32 + 2
-          );
+          ctx.fillRect(cX - 9 - 2, cY - 15 - 1, 19 + 2, 32 + 2);
           ctx.fillStyle = cardColors[doc.data().card];
-          ctx.fillRect(doc.data().pos.x - 10, doc.data().pos.y - 15, 19, 32);
+          ctx.fillRect(cX - 10, cY - 15, 19, 32);
           ctx.fill();
         });
       }
@@ -147,7 +150,7 @@ export default function Index() {
   const [openWishForm, setOpenWishForm] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
 
-  const [card, setCard] = React.useState("");
+  const [card, setCard] = React.useState(-1);
   const [cardError, setCardError] = React.useState(false);
 
   const [wish, setWish] = React.useState("");
@@ -211,7 +214,7 @@ export default function Index() {
       });
       setOpenSnackbar(true);
       setWish("");
-      setCard("");
+      setCard(-1);
       setYourWish("");
       return true;
     }
@@ -354,7 +357,11 @@ export default function Index() {
                     onChange={handleCardChange}
                   >
                     {cardColorsName.map((x, idx) => {
-                      return <MenuItem value={idx}>{x}</MenuItem>;
+                      return (
+                        <MenuItem value={idx} key={idx}>
+                          {x}
+                        </MenuItem>
+                      );
                     })}
                   </Select>
                   <FormHelperText
