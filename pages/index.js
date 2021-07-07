@@ -62,6 +62,7 @@ export default function Index() {
   const handleCanvasClick = (event) => {
     const posX = event.pageX + scrollBar.current.scrollLeft - canvasLeft;
     const posY = event.pageY - canvasTop;
+    console.log(posX, posY);
     if (readyToAdd) {
       const pos = {
         x: posX,
@@ -82,6 +83,12 @@ export default function Index() {
         setSnackbarVal({
           severity: "warning",
           text: "Cannot place a card on another card",
+        });
+        setOpenSnackbar(true);
+      } else if (posX >= 1300 && posX <= 1390 && posY >= 25 && posY <= 100) {
+        setSnackbarVal({
+          severity: "warning",
+          text: "Cannot place a card on the moon",
         });
         setOpenSnackbar(true);
       } else {
@@ -642,7 +649,9 @@ export default function Index() {
         </Typography>
         <Typography variant="caption">
           Designed by{" "}
-          <Link href="https://instagram.com/crackerloveyou">@crackerloveyou</Link>
+          <Link href="https://instagram.com/crackerloveyou">
+            @crackerloveyou
+          </Link>
         </Typography>
       </Box>
     </Box>
