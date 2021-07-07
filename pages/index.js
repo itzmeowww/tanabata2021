@@ -62,7 +62,7 @@ export default function Index() {
   const handleCanvasClick = (event) => {
     const posX = event.pageX + scrollBar.current.scrollLeft - canvasLeft;
     const posY = event.pageY - canvasTop;
-    console.log(posX, posY);
+    // console.log(posX, posY);
     if (readyToAdd) {
       const pos = {
         x: posX,
